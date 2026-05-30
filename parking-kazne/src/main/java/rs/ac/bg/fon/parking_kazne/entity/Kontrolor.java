@@ -19,10 +19,10 @@ public class Kontrolor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="ime")
+    @Column(name="ime",nullable = true)
     private String ime;
 
-    @Column(name="prezime")
+    @Column(name="prezime",nullable = true)
     private String prezime;
 
     @Column(name="brojLegitimacije",unique = true)
