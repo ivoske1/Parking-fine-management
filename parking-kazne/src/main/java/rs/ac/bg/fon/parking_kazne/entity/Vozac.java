@@ -21,16 +21,16 @@ public class Vozac {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String ime;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String prezime;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String brojVozacke;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String telefon;
 
     @OneToMany(mappedBy = "vozac",cascade = CascadeType.ALL)

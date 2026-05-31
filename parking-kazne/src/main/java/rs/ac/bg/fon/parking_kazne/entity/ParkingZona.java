@@ -10,7 +10,7 @@ import rs.ac.bg.fon.parking_kazne.enums.Zona;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="parkingZona")
+@Table(name="parking_zona")
 @Getter
 @Setter
 public class ParkingZona {
