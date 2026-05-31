@@ -1,5 +1,6 @@
 package rs.ac.bg.fon.parking_kazne.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class KontrolorService {
     private final KontrolorRepository kontrolorRepository;
-
+    @Transactional
     public KontrolorResponse create(KontrolorRequest kontrolorRequest){
         Kontrolor kontrolor=new Kontrolor();
         kontrolor.setIme(kontrolorRequest.ime());
@@ -41,6 +42,7 @@ public class KontrolorService {
         }
         throw new RuntimeException("Kontrolor not found");
     }
+    @Transactional
     public void deleteById(Long id){
         log.info("Deleting kontrol with id:{}",id);
         findByIdInternal(id);

@@ -1,5 +1,6 @@
 package rs.ac.bg.fon.parking_kazne.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.Optional;
 @Service
 public class VozacService {
     private final VozacRepository vozacRepository;
-
+    @Transactional
     public VozacResponse create(VozacRequest vozacRequest){
         Vozac vozac=new Vozac();
         vozac.setIme(vozacRequest.ime());
@@ -43,6 +44,7 @@ public class VozacService {
         }
         throw new RuntimeException("Driver not found");
     }
+    @Transactional
     public void deleteById(Long id){
         log.info("Deleting driver with id: {}",id);
         findByInternalId(id);

@@ -1,5 +1,6 @@
 package rs.ac.bg.fon.parking_kazne.service;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ParkingZonaService {
     private final ParkinZonaRepository parkinZonaRepository;
-
+    @Transactional
     public ParkingZonaResponse create(ParkingZonaRequest parkingZonaRequest){
         ParkingZona parkingZona=new ParkingZona();
         parkingZona.setNaziv(parkingZonaRequest.naziv());
@@ -40,6 +41,7 @@ public class ParkingZonaService {
         }
         throw new RuntimeException("ParkingZona not found");
     }
+    @Transactional
     public void deleteById(Long id){
         log.info("Delete ParkingZona with id : {}",id);
         findByInternalId(id);

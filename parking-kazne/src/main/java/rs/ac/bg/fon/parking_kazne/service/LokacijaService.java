@@ -1,5 +1,6 @@
 package rs.ac.bg.fon.parking_kazne.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class LokacijaService {
     private final LokacijaRepository lokacijaRepository;
-
+    @Transactional
     public LokacijaResponse create(LokacijaRequest lokacijaRequest){
         Lokacija lokacija=new Lokacija();
         lokacija.setUlica(lokacijaRequest.ulica());
@@ -43,6 +44,7 @@ public class LokacijaService {
         throw new RuntimeException("Location not found");
 
     }
+    @Transactional
     public void deleteById(Long id){
         log.info("Deleting location by id: {}",id);
         findByIdInternal(id);
