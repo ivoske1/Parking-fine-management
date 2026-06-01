@@ -54,5 +54,11 @@ public class VoziloService {
         findByIdInternal(id);
         deleteById(id);
     }
-
+    public Vozilo findByRegistracija(String registracija){
+        log.info("Finding vehicle with registration: {}",registracija);
+        return voziloRepository.findAll().stream()
+                .filter(v->v.getRegistracija().equalsIgnoreCase(registracija))
+                .findFirst()
+                .orElseThrow(()->new RuntimeException("Not found vehicle"));
+    }
 }

@@ -21,24 +21,24 @@ public class DnevnaKarta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable =true)
     private int brojSati;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private double cena;
 
-    @Column(nullable = false)
-    private LocalDate datum;
+    @Column(nullable = true)
+    private LocalDateTime vremeKupovine;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime vaziDo;
 
     @ManyToOne
-    @JoinColumn(name="vozilo_id",nullable = false)
+    @JoinColumn(name="vozilo_id",nullable = true)
     private Vozilo vozilo;
 
     @ManyToOne
-    @JoinColumn(name="parkingZona_id",nullable = false)
+    @JoinColumn(name="parkingZona_id",nullable = true)
     private ParkingZona parkingZona;
 
 }
