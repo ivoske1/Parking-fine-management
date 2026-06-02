@@ -8,6 +8,7 @@ import lombok.Setter;
 import rs.ac.bg.fon.parking_kazne.enums.StatusKazne;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -22,7 +23,7 @@ public class Kazna {
     private Long id;
 
     @Column(name="datum")
-    private LocalDate datum;
+    private LocalDateTime vremeIzdavanja;
 
     @Column(name="iznos")
     private double iznos;

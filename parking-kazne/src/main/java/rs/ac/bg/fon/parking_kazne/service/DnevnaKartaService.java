@@ -4,7 +4,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 import rs.ac.bg.fon.parking_kazne.dto.DnevnaKartaRequest;
 import rs.ac.bg.fon.parking_kazne.dto.DnevnaKartaResponse;
 import rs.ac.bg.fon.parking_kazne.entity.DnevnaKarta;

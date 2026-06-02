@@ -59,7 +59,11 @@ public class DnevnaKartaController {
     public ResponseEntity<Object> findByRegistracija(@PathVariable String registracija){
         try{
             List<DnevnaKartaResponse>karte=dnevnaKartaService.findByRegistracija(registracija);
+            if(karte.isEmpty()){
+                return ResponseEntity.status(HttpStatus.OK).body("No tickets for this vehicle");
+            }
             return ResponseEntity.status(HttpStatus.OK).body(karte);
+
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }

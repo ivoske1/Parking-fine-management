@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rs.ac.bg.fon.parking_kazne.dto.VozacRequest;
 import rs.ac.bg.fon.parking_kazne.dto.VozacResponse;
-import rs.ac.bg.fon.parking_kazne.entity.Vozac;
 import rs.ac.bg.fon.parking_kazne.service.VozacService;
 
 import java.util.List;
