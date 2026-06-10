@@ -7,7 +7,13 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
-
+/**
+ * Represents a parking controller (officer) employed by the parking service.
+ * Enforces a uniqueness constraint on the controller's official badge number
+ * and maintains a record of all citations issued by them.
+ *
+ * @author Lazar Ivosevic
+ */
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,18 +21,32 @@ import java.util.List;
 @Getter
 @Setter
 public class Kontrolor {
+    /**
+     * Unique identifier for the parking controller in the database (Primary Key).
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    /**
+     * The first name of the parking controller.
+     */
     @Column(name="ime",nullable = true)
     private String ime;
-
+    /**
+     * The last name (surname) of the parking controller.
+     */
     @Column(name="prezime",nullable = true)
     private String prezime;
-
+    /**
+     * The official, unique badge or identification card number assigned to the controller.
+     * This field enforces a unique database constraint to avoid duplicate officer profiles.
+     */
     @Column(name="brojLegitimacije",unique = true)
     private String brojLegitimacije;
+    /**
+     * The list of all parking citations (fines) issued by this specific controller over time.
+     * Managed bidirectionally; operations on the controller cascade to their associated citations.
+     */
     @OneToMany(mappedBy = "kontrolor",cascade = CascadeType.ALL)
     private List<Kazna>kazne;
 
