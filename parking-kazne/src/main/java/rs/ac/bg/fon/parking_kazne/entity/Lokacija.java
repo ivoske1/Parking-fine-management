@@ -1,6 +1,7 @@
 package rs.ac.bg.fon.parking_kazne.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,11 +28,13 @@ public class Lokacija {
     /**
      * The name of the street where the location is situated.
      */
-    @Column(name="ulica",nullable = true)
+    @NotNull
+    @Column(name="ulica",nullable = false)
     private String ulica;
     /**
      * The name of the city where the location is situated (e.g., Beograd).
      */
-    @Column(name="grad",nullable = true)
+    @NotNull
+    @Column(name="grad",nullable = false)
     private String grad;
 }

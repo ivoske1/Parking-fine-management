@@ -1,6 +1,8 @@
 package rs.ac.bg.fon.parking_kazne.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,18 +30,22 @@ public class ParkingZona {
     /**
      * The descriptive name of the parking zone (e.g., "A1 - Center", "Zone 2 - Public").
      */
-    @Column(name="naziv")
+    @NotNull
+    @Column(name="naziv",nullable = false)
     private String naziv;
     /**
      * The hourly parking rate charged for keeping a vehicle within this zone.
      * This field cannot be null and serves as a base multiplier for ticket creation.
      */
+    @Positive(message = "Cena po satu mora biti veća od nule")
+    @NotNull
     @Column(name="cenaPoSatu",nullable = false)
     private Double cenaPoSatu;
     /**
      * The structural category enum representing the type of zone (e.g., RED, YELLOW, GREEN).
      * This field cannot be null and enforces domain-level classification constraints.
      */
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Zona zona;

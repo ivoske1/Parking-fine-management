@@ -1,6 +1,7 @@
 package rs.ac.bg.fon.parking_kazne.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,22 +31,26 @@ public class Vozac {
     /**
      * The first name of the driver.
      */
-    @Column(nullable = true)
+    @NotNull(message = "Ime je obavezno")
+    @Column(nullable = false)
     private String ime;
     /**
      * The last name (surname) of the driver.
      */
-    @Column(nullable = true)
+    @NotNull(message = "Prezime je obavezno")
+    @Column(nullable = false)
     private String prezime;
     /**
      * The official serial number of the driver's driver's license.
      */
-    @Column(nullable = true)
+    @NotNull(message = "Broj vozacke je obavezan")
+    @Column(nullable = false)
     private String brojVozacke;
     /**
      * The contact phone number of the driver, used for automated SMS parking warnings or receipts.
      */
-    @Column(nullable = true)
+    @NotNull(message = "Broj telefona je obavezam")
+    @Column(nullable = false)
     private String telefon;
     /**
      * The list of vehicles owned by or registered to this specific driver.

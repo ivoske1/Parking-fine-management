@@ -1,6 +1,7 @@
 package rs.ac.bg.fon.parking_kazne.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,22 +32,26 @@ public class Vozilo {
      * The official license plate registration number of the vehicle (e.g., BG-123-XX).
      * This field enforces a strict unique database constraint to ensure no duplicate vehicles exist.
      */
+    @NotNull(message = "Registracija je obavezna")
     @Column(name="registracija",unique = true)
     private String registracija;
     /**
      * The manufacturer or brand of the vehicle (e.g., Fiat, Volkswagen, BMW).
      */
-    @Column(name="marka")
+    @NotNull(message = "Marka je obavezna")
+    @Column(name="marka",nullable = false)
     private String marka;
     /**
      * The specific commercial model name of the vehicle (e.g., Punto, Golf, 3 Series).
      */
-    @Column(name="model")
+    @NotNull(message = "Model je obavezan")
+    @Column(name="model",nullable = false)
     private String model;
     /**
      * The registered driver who owns or is primary responsible for the vehicle.
      * This field cannot be null, establishing a mandatory relationship.
      */
+    @NotNull(message = "Vozač je obavezan")
     @ManyToOne
     @JoinColumn(name="vozac_id",nullable = false)
     private Vozac vozac;

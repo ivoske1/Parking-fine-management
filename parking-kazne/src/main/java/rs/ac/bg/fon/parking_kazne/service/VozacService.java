@@ -81,7 +81,7 @@ public class VozacService {
     public void deleteById(Long id){
         log.info("Deleting driver with id: {}",id);
         findByInternalId(id);
-        deleteById(id);
+        vozacRepository.deleteById(id);
     }
 
 }

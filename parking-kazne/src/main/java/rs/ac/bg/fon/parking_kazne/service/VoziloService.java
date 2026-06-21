@@ -79,7 +79,7 @@ public class VoziloService {
     public void deleteById(Long id){
         log.info("Deleting vehicle with id: {}",id);
         findByIdInternal(id);
-        deleteById(id);
+        voziloRepository.deleteById(id);
     }
     /**
      * Searches for a vehicle by its license plate registration number.

@@ -1,6 +1,8 @@
 package rs.ac.bg.fon.parking_kazne.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,17 +32,20 @@ public class Placanje {
     /**
      * The exact monetary amount processed and paid by the offender.
      */
-    @Column(name="iznos")
+    @Positive(message = "Iznos plaćanja mora biti veći od nule")
+    @Column(name="iznos",nullable = false)
     private double iznos;
     /**
      * The calendar date when the payment transaction occurred.
      */
+    @NotNull(message = "Datum plaćanja je obavezan")
     @Column(name="datum")
     private LocalDate datum;
     /**
      * The medium or channel through which the transaction was settled (e.g., CARD, CASH, SMS, APP).
      * This field cannot be null and relies on structural mapping via {@link NacinPlacanja}.
      */
+    @NotNull(message = "Način plaćanja je obavezan")
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private NacinPlacanja nacinPlacanja;
@@ -49,7 +54,9 @@ public class Placanje {
      * This field cannot be null and enforces a database-level uniqueness constraint
      * to prevent multiple payment logs from referencing the same citation.
      */
+    @NotNull(message = "Kazna je obavezna")
     @OneToOne
     @JoinColumn(name="kazna_id",nullable = false,unique = true)
     private Kazna kazna;
+
 }

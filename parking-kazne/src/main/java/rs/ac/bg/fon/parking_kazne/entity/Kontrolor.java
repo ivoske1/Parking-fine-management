@@ -1,6 +1,7 @@
 package rs.ac.bg.fon.parking_kazne.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,17 +31,20 @@ public class Kontrolor {
     /**
      * The first name of the parking controller.
      */
-    @Column(name="ime",nullable = true)
+    @NotNull(message = "Ime je obavezno")
+    @Column(name="ime",nullable = false)
     private String ime;
     /**
      * The last name (surname) of the parking controller.
      */
-    @Column(name="prezime",nullable = true)
+    @NotNull(message = "prezime je obavezno")
+    @Column(name="prezime",nullable = false)
     private String prezime;
     /**
      * The official, unique badge or identification card number assigned to the controller.
      * This field enforces a unique database constraint to avoid duplicate officer profiles.
      */
+    @NotNull(message = "Broj legitimacije je obavezan")
     @Column(name="brojLegitimacije",unique = true)
     private String brojLegitimacije;
     /**
