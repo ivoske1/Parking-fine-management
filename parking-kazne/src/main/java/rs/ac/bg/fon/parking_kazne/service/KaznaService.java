@@ -36,15 +36,26 @@ public class KaznaService {
     /**
      * Issues and registers a new parking citation in the system.
      * Resolves the associated vehicle, officer, location, and parking zone dependencies,
+     * verifies that the vehicle does not already carry an unpaid citation,
      * sets the initialization timestamp, automatically computes the violation penalty amount
      * based on zone severity, and defaults the lifecycle status to unpaid.
      * * @param kaznaRequest the DTO containing reference data keys needed to compile the citation.
      * @return {@link KaznaResponse} representing the newly persisted parking citation.
-     * @throws RuntimeException if any referenced dependency (vehicle, controller, location, zone) cannot be resolved.
+     * @throws RuntimeException if the vehicle already has an unpaid citation, or if any referenced
+     * dependency (vehicle, controller, location, zone) cannot be resolved.
      */
     @Transactional
     public KaznaResponse create(KaznaRequest kaznaRequest){
         Vozilo v=voziloService.findByRegistracija(kaznaRequest.registracija());
+
+        boolean vecImaNeplacenu=kaznaRepository.findAll().stream()
+                .anyMatch(postojeca->postojeca.getVozilo()!=null
+                        && postojeca.getVozilo().getId().equals(v.getId())
+                        && postojeca.getStatusKazne()==StatusKazne.NEPLACENA);
+        if(vecImaNeplacenu){
+            throw new RuntimeException("Vozilo već ima neplaćenu kaznu");
+        }
+
         Kontrolor k=kontrolorService.findByIdInternal(kaznaRequest.kontrolerId());
         Lokacija lok=lokacijaService.findByIdInternal(kaznaRequest.lokacijaId());
         ParkingZona pz=parkingZonaService.findByInternalId(kaznaRequest.parkingZonaId());

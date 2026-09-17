@@ -32,6 +32,7 @@ public class KaznaController {
         }
     }
 
+    @GetMapping
     public ResponseEntity<Object> findAll(){
         try{
             List<KaznaResponse> kaznaResponses=kazneService.findAll();

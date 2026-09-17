@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking kazne — administracija</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+    <div class="brand">
+        <span class="logo">P</span>
+        <div>
+            <h1>Parking kazne</h1>
+            <p>Sistem za evidenciju i plaćanje parking kazni</p>
+        </div>
+    </div>
+    <button id="refreshAll" class="btn btn-ghost">Osveži sve</button>
+</header>
+
+<nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="pregled">Pregled</button>
+    <button class="tab" data-tab="kazne">Kazne</button>
+    <button class="tab" data-tab="placanja">Plaćanja</button>
+    <button class="tab" data-tab="karte">Dnevne karte</button>
+    <button class="tab" data-tab="vozaci">Vozači</button>
+    <button class="tab" data-tab="vozila">Vozila</button>
+    <button class="tab" data-tab="zone">Parking zone</button>
+    <button class="tab" data-tab="lokacije">Lokacije</button>
+    <button class="tab" data-tab="kontrolori">Kontrolori</button>
+</nav>
+
+<main>
+
+    <!-- ============ PREGLED ============ -->
+    <section id="tab-pregled" class="panel active">
+        <div class="stats" id="stats"></div>
+
+        <div class="card">
+            <h2>Provera vozila</h2>
+            <p class="hint">Unesi registraciju da vidiš sve kazne i dnevne karte za to vozilo.</p>
+            <form id="formProvera" class="row">
+                <input name="registracija" placeholder="npr. BG-123-AB" required>
+                <button class="btn btn-primary">Proveri</button>
+            </form>
+            <div id="proveraRezultat"></div>
+        </div>
+    </section>
+
+    <!-- ============ KAZNE ============ -->
+    <section id="tab-kazne" class="panel">
+        <div class="card">
+            <h2>Izdaj kaznu</h2>
+            <p class="hint">Iznos se automatski računa po zoni: crvena 5000, žuta 3000, zelena 1000 RSD.</p>
+            <form id="formKazna" class="grid">
+                <label>Registracija vozila
+                    <select name="registracija" data-src="vozila-reg" required></select>
+                </label>
+                <label>Parking zona
+                    <select name="parkingZonaId" data-src="zone" required></select>
+                </label>
+                <label>Kontrolor
+                    <select name="kontrolerId" data-src="kontrolori" required></select>
+                </label>
+                <label>Lokacija
+                    <select name="lokacijaId" data-src="lokacije" required></select>
+                </label>
+                <button class="btn btn-primary">Izdaj kaznu</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <div class="card-head">
+                <h2>Sve kazne</h2>
+                <select id="filterStatus" class="inline-select">
+                    <option value="">Svi statusi</option>
+                    <option value="NEPLACENA">Neplaćene</option>
+                    <option value="PLACENA">Plaćene</option>
+                    <option value="U_POSTUPKU">U postupku</option>
+                </select>
+            </div>
+            <div id="tabelaKazne"></div>
+        </div>
+    </section>
+
+    <!-- ============ PLACANJA ============ -->
+    <section id="tab-placanja" class="panel">
+        <div class="card">
+            <h2>Plati kaznu</h2>
+            <p class="hint">Uplaćeni iznos ne sme biti manji od iznosa kazne. Kazna se automatski označava kao plaćena.</p>
+            <form id="formPlacanje" class="grid">
+                <label>Kazna
+                    <select name="kaznaId" id="selectNeplaceneKazne" required></select>
+                </label>
+                <label>Iznos (RSD)
+                    <input name="iznos" id="inputIznos" type="number" step="0.01" min="0" required>
+                </label>
+                <label>Način plaćanja
+                    <select name="nacin" required>
+                        <option value="KARTICA">Kartica</option>
+                        <option value="GOTOVINA">Gotovina</option>
+                        <option value="ONLINE">Online</option>
+                    </select>
+                </label>
+                <button class="btn btn-primary">Plati</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Sva plaćanja</h2>
+            <div id="tabelaPlacanja"></div>
+        </div>
+    </section>
+
+    <!-- ============ DNEVNE KARTE ============ -->
+    <section id="tab-karte" class="panel">
+        <div class="card">
+            <h2>Kupi dnevnu kartu</h2>
+            <p class="hint">Cena = broj sati × cena po satu zone. Vozilo ne može imati dve važeće karte istovremeno.</p>
+            <form id="formKarta" class="grid">
+                <label>Registracija vozila
+                    <select name="registracija" data-src="vozila-reg" required></select>
+                </label>
+                <label>Parking zona
+                    <select name="parkingZonaId" data-src="zone" required></select>
+                </label>
+                <label>Broj sati
+                    <input name="brojSati" type="number" min="1" max="24" value="2" required>
+                </label>
+                <button class="btn btn-primary">Kupi kartu</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Sve dnevne karte</h2>
+            <div id="tabelaKarte"></div>
+        </div>
+    </section>
+
+    <!-- ============ VOZACI ============ -->
+    <section id="tab-vozaci" class="panel">
+        <div class="card">
+            <h2>Novi vozač</h2>
+            <form id="formVozac" class="grid">
+                <label>Ime <input name="ime" required></label>
+                <label>Prezime <input name="prezime" required></label>
+                <label>Broj vozačke <input name="brojVozacke" required></label>
+                <label>Telefon <input name="telefon" required></label>
+                <button class="btn btn-primary">Sačuvaj</button>
+            </form>
+        </div>
+        <div class="card">
+            <h2>Vozači</h2>
+            <div id="tabelaVozaci"></div>
+        </div>
+    </section>
+
+    <!-- ============ VOZILA ============ -->
+    <section id="tab-vozila" class="panel">
+        <div class="card">
+            <h2>Novo vozilo</h2>
+            <form id="formVozilo" class="grid">
+                <label>Registracija <input name="registracija" placeholder="BG-123-AB" required></label>
+                <label>Marka <input name="marka" required></label>
+                <label>Model <input name="model" required></label>
+                <label>Vozač
+                    <select name="vozacId" data-src="vozaci" required></select>
+                </label>
+                <button class="btn btn-primary">Sačuvaj</button>
+            </form>
+        </div>
+        <div class="card">
+            <h2>Vozila</h2>
+            <div id="tabelaVozila"></div>
+        </div>
+    </section>
+
+    <!-- ============ ZONE ============ -->
+    <section id="tab-zone" class="panel">
+        <div class="card">
+            <h2>Nova parking zona</h2>
+            <form id="formZona" class="grid">
+                <label>Naziv <input name="naziv" placeholder="Zona 1 - centar" required></label>
+                <label>Cena po satu (RSD) <input name="cenaPoSatu" type="number" step="0.01" min="0" required></label>
+                <label>Boja zone
+                    <select name="zona" required>
+                        <option value="CRVENA">Crvena</option>
+                        <option value="ZUTA">Žuta</option>
+                        <option value="ZELENA">Zelena</option>
+                    </select>
+                </label>
+                <button class="btn btn-primary">Sačuvaj</button>
+            </form>
+        </div>
+        <div class="card">
+            <h2>Parking zone</h2>
+            <div id="tabelaZone"></div>
+        </div>
+    </section>
+
+    <!-- ============ LOKACIJE ============ -->
+    <section id="tab-lokacije" class="panel">
+        <div class="card">
+            <h2>Nova lokacija</h2>
+            <form id="formLokacija" class="grid">
+                <label>Ulica <input name="ulica" required></label>
+                <label>Grad <input name="grad" required></label>
+                <button class="btn btn-primary">Sačuvaj</button>
+            </form>
+        </div>
+        <div class="card">
+            <h2>Lokacije</h2>
+            <div id="tabelaLokacije"></div>
+        </div>
+    </section>
+
+    <!-- ============ KONTROLORI ============ -->
+    <section id="tab-kontrolori" class="panel">
+        <div class="card">
+            <h2>Novi kontrolor</h2>
+            <form id="formKontrolor" class="grid">
+                <label>Ime <input name="ime" required></label>
+                <label>Prezime <input name="prezime" required></label>
+                <label>Broj legitimacije <input name="brojLegitimacije" required></label>
+                <button class="btn btn-primary">Sačuvaj</button>
+            </form>
+        </div>
+        <div class="card">
+            <h2>Kontrolori</h2>
+            <div id="tabelaKontrolori"></div>
+        </div>
+    </section>
+
+</main>
+
+<div id="toasts" class="toasts"></div>
+
+<div id="modalOverlay" class="modal-overlay" hidden>
+    <div id="modalBox" class="modal-box">
+        <div id="modalIcon" class="modal-icon"></div>
+        <p id="modalMessage" class="modal-message"></p>
+        <button id="modalClose" class="btn btn-primary">U redu</button>
+    </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
